@@ -1,6 +1,6 @@
 .card{
-    height: 200px;
-    width: 200px;
+    height: 14vw;
+    width: 14vw;
     padding: 1vw 1.5vw;
     border: 1px solid var(--secondary-color);
     background-color: var(--secondary-background);
@@ -32,4 +32,32 @@
     background-color: var(--primary-background);
     box-sizing: content-box;
     border-radius: 50%;
+}
+@media(max-width: 900px) {
+    .card{
+        width: 20vw;
+        height: 20vw;
+        padding: 15px 25px;
+    }
+    .card p{
+        font-size: 1.5vw;
+    }
+    .card img{
+        width: 3vw;
+    }
+}
+@media (max-width: 500px) {
+    .card{
+        height: 36vw;
+        width: 36vw;
+        padding: 20px 15px;
+    }
+    .card p{
+        font-size: 3vw;
+    }
+    .card img{
+        width: 5vw;
+        margin-bottom: -10%;
+        margin-left: 80%;
+    }
 }

@@ -1,4 +1,4 @@
-import React, { useContext, useEffect} from 'react'
+import React, { useContext, useEffect } from 'react'
 import { useState } from 'react'
 import './Sidebar.css'
 import { assets } from "../../assets/assets"
@@ -7,13 +7,13 @@ import { Context } from '../../context/Context'
 function Sidebar() {
 
     const [extended, setExtended] = useState(false)
-    const { onSent, previousPrompt, setRecentPrompt, setPreviousPrompt } = useContext(Context)
+    const { onSent, previousPrompt, setRecentPrompt, setPreviousPrompt, Input } = useContext(Context)
     useEffect(() => {
-        const previousPrompt = JSON.parse(localStorage.getItem("previousPrompt"));
-        if (previousPrompt && previousPrompt.length > 0) {
-            setPreviousPrompt(previousPrompt)
-        }
-    }, [])
+        let previousPrompt = JSON.parse(localStorage.getItem("previousPrompt"));
+            if (previousPrompt && previousPrompt.length > 0) {
+                setPreviousPrompt(previousPrompt);
+            }
+    }, []);
     useEffect(() => {
         localStorage.setItem("previousPrompt", JSON.stringify(previousPrompt));
     }, [previousPrompt])
@@ -32,7 +32,10 @@ function Sidebar() {
                         <p className="recent-title">Recent</p>
                         {
                             previousPrompt.map((item, index) => {
-                                return (
+                                if (index > 6) {
+                                    return;
+                                }
+                                else return (
                                     <div className="recent-entry" key={index} onClick={() => onSent(item)}>
                                         <img src={assets.message_icon} alt="" />
                                         <p>{item.slice(0, 15)}...</p>
