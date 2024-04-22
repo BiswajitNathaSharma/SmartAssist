@@ -56,7 +56,7 @@ function Main() {
           />
 
           <Suggestion
-          content={"How to center a div."} 
+          content={"How to enhance code readibility."} 
           img={assets.code_icon}
           />
 

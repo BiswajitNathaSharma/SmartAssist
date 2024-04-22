@@ -1,4 +1,4 @@
-import React, { useContext } from 'react'
+import React, { useContext, useEffect} from 'react'
 import { useState } from 'react'
 import './Sidebar.css'
 import { assets } from "../../assets/assets"
@@ -7,9 +7,17 @@ import { Context } from '../../context/Context'
 function Sidebar() {
 
     const [extended, setExtended] = useState(false)
-    const { onSent, previousPrompt, setRecentPrompt } = useContext(Context)
+    const { onSent, previousPrompt, setRecentPrompt, setPreviousPrompt } = useContext(Context)
+    useEffect(() => {
+        const previousPrompt = JSON.parse(localStorage.getItem("previousPrompt"));
+        if (previousPrompt && previousPrompt.length > 0) {
+            setPreviousPrompt(previousPrompt)
+        }
+    }, [])
+    useEffect(() => {
+        localStorage.setItem("previousPrompt", JSON.stringify(previousPrompt));
+    }, [previousPrompt])
 
-    
 
     return (
         <div className='sidebar'>
@@ -25,9 +33,9 @@ function Sidebar() {
                         {
                             previousPrompt.map((item, index) => {
                                 return (
-                                    <div className="recent-entry" key={index} onClick={()=>onSent(item)}>
+                                    <div className="recent-entry" key={index} onClick={() => onSent(item)}>
                                         <img src={assets.message_icon} alt="" />
-                                        <p>{item.slice(0 ,15)}...</p>
+                                        <p>{item.slice(0, 15)}...</p>
                                     </div>
                                 )
                             })
@@ -37,7 +45,7 @@ function Sidebar() {
             <div className="bottom">
                 <div className="bottom-item recent-entry">
                     <img src={assets.question_icon} alt="" />
-                    {extended ? <p>Help</p> : null}
+                    {extended ? <p>Help &nbsp; &nbsp; &nbsp;</p> : null}
                 </div>
                 <div className="bottom-item recent-entry">
                     <img src={assets.history_icon} alt="" />
