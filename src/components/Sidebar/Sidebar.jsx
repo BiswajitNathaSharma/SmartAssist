@@ -6,13 +6,20 @@ import { Context } from '../../context/Context'
 
 function Sidebar() {
 
-    const [extended, setExtended] = useState(false)
-    const { onSent, previousPrompt, setRecentPrompt, setPreviousPrompt, Input } = useContext(Context)
+    const [extended, setExtended] = useState(false);
+    const [mobMenu, setMobMenu] = useState(window.innerWidth < 900)
+    const { onSent, previousPrompt, setPreviousPrompt } = useContext(Context)
+
+    
     useEffect(() => {
         let previousPrompt = JSON.parse(localStorage.getItem("previousPrompt"));
-            if (previousPrompt && previousPrompt.length > 0) {
-                setPreviousPrompt(previousPrompt);
-            }
+        if (previousPrompt && previousPrompt.length > 0) {
+            setPreviousPrompt(previousPrompt);
+        }
+
+        if(mobMenu){
+            setExtended(true)
+        }
     }, []);
     useEffect(() => {
         localStorage.setItem("previousPrompt", JSON.stringify(previousPrompt));
@@ -20,7 +27,7 @@ function Sidebar() {
 
 
     return (
-        <div className='sidebar'>
+        <div className={`sidebar ${mobMenu ? 'mobmenu' : ""}`}>
             <div className="top">
                 <img src={assets.menu_icon} alt="" className='menu' onClick={() => setExtended(prev => !prev)} />
                 <div className="new-chat">
@@ -32,15 +39,13 @@ function Sidebar() {
                         <p className="recent-title">Recent</p>
                         {
                             previousPrompt.map((item, index) => {
-                                if (index > 6) {
-                                    return;
-                                }
-                                else return (
-                                    <div className="recent-entry" key={index} onClick={() => onSent(item)}>
+                                if (index < 6) {
+                                    return(<div className="recent-entry" key={index} onClick={() => onSent(item)}>
                                         <img src={assets.message_icon} alt="" />
-                                        <p>{item.slice(0, 15)}...</p>
-                                    </div>
-                                )
+                                    {
+                                    (mobMenu) ? <p>{item}</p> : <p>{item.slice(0, 15)}...</p>}
+                                </div>);
+                                }
                             })
                         }
                     </div> : null}

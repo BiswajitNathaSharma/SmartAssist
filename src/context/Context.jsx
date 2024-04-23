@@ -13,6 +13,7 @@ const ContextProvider = (props) => {
     const [showResult, SetshowResult] = useState(false)
     const [loading, setLoading] = useState(false)
     const [resultData, setResultData] = useState("")
+    const [stop, setStop] = useState(false)
 
     function TextFormatter(text) {
         const boldRegex = /\*\*(.*?)\*\*/g;
@@ -41,41 +42,55 @@ const ContextProvider = (props) => {
         if (error.includes("Candidate was blocked due to RECITATION")) {
             delayPara("Unauthorized repetition detected. Please refrain from reciting content as it violates our guidelines.")
         }
+        if(error.includes("prompt can't be empty")){
+            delayPara("Prompt shouldn't be empty...")
+        }
     }
     const delayPara = (formattedText) => {
         let newFormattedText = formattedText.split(" ")
         newFormattedText.forEach((nextWord, index) => {
             setTimeout(() => {
-                setResultData(prev => prev + " " + nextWord)
+                if(stop){
+                    return
+                }
+                else setResultData(prev => prev + " " + nextWord)
             }, 75 * index);
         })
     }
 
+    function stopGenerate(actualPrompt) {
+        if (actualPrompt.trim() === "") {
+            setLoading(false)
+            alert("Prompt can't be empty")
+            let error = new Error("prompt can't be empty")
+            throw error
+        }
+    }
+
     const onSent = async (prompt) => {
-        // if (input.trim() === "") {
-        //     return
-        // }
+
         setResultData("")
         setLoading(true)
         SetshowResult(true)
         let response;
-        let actualPrompt = prompt? prompt: input;
-        
-            setRecentPrompt(actualPrompt)
-            setPreviousPrompt(prev => [actualPrompt,...prev])
-            try {
-                response = await runChat(actualPrompt)
-                let formattedText = TextFormatter(response)
-                delayPara(formattedText)
-            } catch (error) {
-                verifyError(error)
-            }
-            finally {
-                setLoading(false)
-                setInput("")
+        let actualPrompt = prompt ? prompt : input;
 
-            }
+        setRecentPrompt(actualPrompt)
+        setPreviousPrompt(prev => [actualPrompt, ...prev])
+        try {
+            stopGenerate(actualPrompt)
+            response = await runChat(actualPrompt)
+            let formattedText = TextFormatter(response)
+            delayPara(formattedText)
+        } catch (error) {
+            verifyError(error)
         }
+        finally {
+            setLoading(false)
+            setInput("")
+
+        }
+    }
 
     const contextValue = {
         previousPrompt,
