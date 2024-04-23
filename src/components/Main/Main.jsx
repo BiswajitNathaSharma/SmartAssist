@@ -1,8 +1,9 @@
-import React, { useContext } from 'react'
+import React, { useContext, useState, useEffect } from 'react'
 import {assets} from "../../assets/assets"
 import "./Main.css"
 import {Suggestion} from '../index'
 import { Context } from '../../context/Context'
+import Help from '../Help/Help'
 
 
 function Main() {
@@ -14,28 +15,44 @@ function Main() {
     loading,
     resultData,
     input,
-    setInput
+    setInput,
   } = useContext(Context)
-
-
-  const handleKeyPress = (event) => {
-    if (event.key === "Enter") {
-        event.preventDefault(); // Prevent form submission
-        onSent(); // Call onSent function when Enter is pressed
+  const [username, setUsername] = useState("Learner")
+  useEffect(() => {
+    let storedUserName = localStorage.getItem("userName")
+    if (storedUserName && storedUserName.length > 0) {
+      setUsername(storedUserName)
     }
-};
+  }, [])
+  const handleUsernameChange = (e) => {
+    const newUsername = e.target.value;
+    setUsername(newUsername);
+    localStorage.setItem("userName", newUsername);
+  };
+  
+
+  
+  function openMenu(){
+    document.querySelector(".sidebar").classList.toggle("open-menu");
+}
+
   return (
     <div className='main'>
       <div className="nav">
         <p>Smart Assist</p>
-        <img src={assets.user_icon} alt="" />
+        <img src={assets.user_icon} alt="" onClick={()=>openMenu()}/>
       </div>
       <section className='section'>
         {!showResult
         ? 
         <>
         <div className="h1">
-        <h1>Hello, Learner</h1>
+        <h1>Hello, 
+          <input 
+            type="text"
+            value={username}
+            onChange={handleUsernameChange}
+            /></h1>
         <h1>How can I help you today?</h1>
         </div>
 
@@ -84,7 +101,14 @@ function Main() {
           }
         <div className="prompt-box">
           <div className="input">
-            <input type="text" placeholder='Enter a prompt here' onChange={(e)=>setInput(e.target.value)} value={input}/>
+            <input 
+            type="input" 
+            placeholder='Enter a prompt here' 
+            onChange={(e)=>{
+              setInput(e.target.value)
+                }
+            } 
+            value={input}/>
 
             <div className="img">
             <img src={assets.gallery_icon} alt="" />
@@ -95,6 +119,7 @@ function Main() {
             <p>The results may <strong>inaccurate*</strong></p>
         </div>
       </section>
+      
     </div>
   )
 }

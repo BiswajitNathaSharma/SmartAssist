@@ -30,6 +30,17 @@
 .section h1{
     font-size: 3.5vw;
     font-weight: 800;
+    
+}
+.section h1>input{
+    border: none;
+    outline: none;
+    max-width: 56%;
+    display: inline;
+    background-color: transparent;
+    font-size: 3.5vw;
+    font-weight: 800;
+    padding: 0px 0px 0px 10px;
 }
 .section h1:nth-child(even){
     color: var(--primary-color);
@@ -103,6 +114,9 @@
 .result::-webkit-scrollbar {
     width: 1px;
 }
+::-webkit-scrollbar{
+    width: 2px;
+}
 .result-title{
     margin: 10px 0px 15px 0px;
     display: flex;
@@ -170,7 +184,7 @@
         margin: auto;
         width: 90vw;
     }
-    .section h1{
+    .section h1, .section h1>input{
         font-size: 5vw;
     }
     .cards{
@@ -203,22 +217,25 @@
     .main .nav img{
         width: 8vw;
     }
-    .section h1{
+    .section h1, .section h1>input{
         font-size: 6vw;
     }
     .prompt-box{
         gap: 10px;
     }
     .section .prompt-box input{
-        font-size: 4vw;
-        padding: 2vw 3vw;
+        font-size: 3.6vw;
+        padding: 3.5vw;
     }
     .prompt-box .img{
-        gap: 1px;
+        gap: 4px;
+        padding: 1.5vw;
+        box-sizing: border-box;
 
     }
     .prompt-box img{
-        width: 9vw;
+        width: 7vw;
+        padding: 3px;
     }
     .prompt-box p{
         font-size: 3vw;
