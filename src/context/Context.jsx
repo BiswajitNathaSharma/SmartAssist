@@ -13,7 +13,6 @@ const ContextProvider = (props) => {
     const [showResult, SetshowResult] = useState(false)
     const [loading, setLoading] = useState(false)
     const [resultData, setResultData] = useState("")
-    const [stop, setStop] = useState(false)
 
     function TextFormatter(text) {
         const boldRegex = /\*\*(.*?)\*\*/g;
@@ -42,7 +41,7 @@ const ContextProvider = (props) => {
         if (error.includes("Candidate was blocked due to RECITATION")) {
             delayPara("Unauthorized repetition detected. Please refrain from reciting content as it violates our guidelines.")
         }
-        if(error.includes("prompt can't be empty")){
+        if (error.includes("prompt can't be empty")) {
             delayPara("Prompt shouldn't be empty...")
         }
     }
@@ -50,10 +49,7 @@ const ContextProvider = (props) => {
         let newFormattedText = formattedText.split(" ")
         newFormattedText.forEach((nextWord, index) => {
             setTimeout(() => {
-                if(stop){
-                    return
-                }
-                else setResultData(prev => prev + " " + nextWord)
+                (prev => prev + " " + nextWord)
             }, 75 * index);
         })
     }
@@ -75,10 +71,10 @@ const ContextProvider = (props) => {
         let response;
         let actualPrompt = prompt ? prompt : input;
 
-        setRecentPrompt(actualPrompt)
-        setPreviousPrompt(prev => [actualPrompt, ...prev])
         try {
             stopGenerate(actualPrompt)
+            setRecentPrompt(actualPrompt)
+            setPreviousPrompt(prev => [actualPrompt, ...prev])
             response = await runChat(actualPrompt)
             let formattedText = TextFormatter(response)
             delayPara(formattedText)
