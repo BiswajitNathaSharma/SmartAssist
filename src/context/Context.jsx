@@ -49,7 +49,7 @@ const ContextProvider = (props) => {
         let newFormattedText = formattedText.split(" ")
         newFormattedText.forEach((nextWord, index) => {
             setTimeout(() => {
-                (prev => prev + " " + nextWord)
+                setResultData(prev => prev + " " + nextWord)
             }, 75 * index);
         })
     }
@@ -84,7 +84,6 @@ const ContextProvider = (props) => {
         finally {
             setLoading(false)
             setInput("")
-
         }
     }
 
