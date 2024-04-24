@@ -57,20 +57,17 @@ const ContextProvider = (props) => {
     function stopGenerate(actualPrompt) {
         if (actualPrompt.trim() === "") {
             setLoading(false)
-            alert("Prompt can't be empty")
             let error = new Error("prompt can't be empty")
             throw error
         }
     }
 
     const onSent = async (prompt) => {
-
         setResultData("")
         setLoading(true)
         SetshowResult(true)
         let response;
         let actualPrompt = prompt ? prompt : input;
-
         try {
             stopGenerate(actualPrompt)
             setRecentPrompt(actualPrompt)

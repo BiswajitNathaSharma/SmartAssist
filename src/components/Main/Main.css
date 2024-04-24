@@ -79,14 +79,10 @@
     gap: 20px;
     width: inherit;
 }
-.prompt-box .img{
-    padding-right: 5px;
-    display: flex;
-    gap: 5px;
-}
-.img img{
+.prompt-box img{
     transition: all .2s ease-in-out;
-    width: 3vw;
+    width: 3.5vw;
+    margin-right: 6px;
     cursor: pointer;
     padding: 9px;
     box-sizing:border-box;
@@ -94,7 +90,7 @@
     outline: none;
     border-radius: 50%;
 }
-.img img:hover{
+.prompt-box img:hover{
     background-color: var(--primary-background);
     transform: scale(1.1);
 }
@@ -226,12 +222,6 @@
     .section .prompt-box input{
         font-size: 3.6vw;
         padding: 3.5vw;
-    }
-    .prompt-box .img{
-        gap: 4px;
-        padding: 1.5vw;
-        box-sizing: border-box;
-
     }
     .prompt-box img{
         width: 7vw;
